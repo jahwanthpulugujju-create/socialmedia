@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jahwanth Pulugujju — Brand & Marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0B0B;
+    --bg2: #131313;
+    --cream: #EDE7DC;
+    --cream-dim: #9B9489;
+    --accent: #FF4D1C;
+    --accent2: #FFB347;
+    --border: rgba(237,231,220,0.08);
+    --border-hover: rgba(237,231,220,0.18);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255,77,28,0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: left 0.08s ease, top 0.08s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9000;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled {
+    border-color: var(--border);
+    background: rgba(11,11,11,0.92);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(72px, 10vw, 140px);
+    line-height: 0.92;
+    color: var(--cream);
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-bottom {
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.55s forwards;
+  }
+
+  .hero-desc {
+    max-width: 400px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--cream-dim);
+  }
+  .hero-desc strong { color: var(--cream); font-weight: 600; }
+
+  .hero-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #e03d10; transform: translateY(-2px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 28px;
+    background: transparent;
+    color: var(--cream);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border-hover);
+    cursor: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+
+  /* HERO BG element */
+  .hero-accent-text {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(180px, 20vw, 280px);
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(237,231,220,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    animation: fadeIn 1.5s ease 0.8s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+  }
+  .scroll-hint span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+    overflow: hidden;
+    background: var(--bg2);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 22s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0 48px;
+    color: var(--cream-dim);
+    white-space: nowrap;
+  }
+  .marquee-dot {
+    color: var(--accent);
+    padding: 0;
+    margin: 0 -24px;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 120px 48px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 48px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .section-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 64px;
+  }
+  .section-heading em { font-style: italic; color: var(--accent); }
+
+  /* WORK SECTION */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .case-card {
+    position: relative;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 56px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s;
+  }
+  .case-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .case-card:hover { border-color: var(--border-hover); }
+
+  .case-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .case-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+
+  .case-card-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    margin-bottom: 32px;
+    max-width: 360px;
+  }
+
+  .case-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--border-hover);
+    color: var(--cream-dim);
+  }
+
+  .case-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+  .case-link:hover { gap: 14px; }
+  .case-link svg { transition: transform 0.2s; }
+  .case-link:hover svg { transform: translate(3px, -3px); }
+
+  .case-number {
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 140px;
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(237,231,220,0.04);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* PLACEHOLDER CARD */
+  .case-card-placeholder {
+    background: var(--bg2);
+    border: 1px dashed rgba(237,231,220,0.08);
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 320px;
+  }
+  .placeholder-text {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: rgba(237,231,220,0.2);
+    line-height: 1.4;
+  }
+
+  /* WHAT I DO */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 0;
+  }
+
+  .skill-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 40px 32px;
+    transition: border-color 0.3s, background 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, background 0.3s;
+  }
+  .skill-card.visible { opacity: 1; transform: translateY(0); }
+  .skill-card:hover { border-color: rgba(255,77,28,0.3); background: rgba(255,77,28,0.04); }
+
+  .skill-icon {
+    font-size: 28px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .skill-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .skill-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--cream-dim);
+  }
+
+  /* WHY OFFBEAT */
+  .why-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .why-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .why-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .why-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .why-item.visible { opacity: 1; transform: translateX(0); }
+
+  .why-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    padding-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .why-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--cream-dim);
+  }
+  .why-text strong { color: var(--cream); font-weight: 600; }
+
+  .why-quote {
+    margin-top: 8px;
+    padding: 40px;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .why-quote::before {
+    content: '"';
+    font-family: 'DM Serif Display', serif;
+    font-size: 120px;
+    color: var(--accent);
+    opacity: 0.15;
+    position: absolute;
+    top: -20px;
+    left: 24px;
+    line-height: 1;
+  }
+
+  .why-quote-text {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.5vw, 28px);
+    line-height: 1.4;
+    color: var(--cream);
+    margin-bottom: 24px;
+    padding-top: 16px;
+  }
+
+  .why-quote-attr {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+
+  /* CONTACT */
+  .contact-inner {
+    max-width: 700px;
+  }
+
+  .contact-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    color: var(--cream);
+    margin-bottom: 48px;
+  }
+  .contact-heading em { font-style: italic; color: var(--accent); }
+
+  .contact-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 80px;
+  }
+
+  .contact-info {
+    display: flex;
+    gap: 48px;
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+  }
+
+  .contact-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .contact-info-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .contact-info-value {
+    font-size: 14px;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-info-value:hover { color: var(--cream); }
+
+  /* FOOTER */
+  footer {
+    padding: 24px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: rgba(237,231,220,0.25);
+  }
+
+  .footer-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,77,28,0.4);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* HIGHLIGHT ACCENT LINE */
+  .accent-line {
+    display: inline-block;
+    position: relative;
+  }
+  .accent-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 24px 56px; }
+    section { padding: 80px 24px; }
+    .work-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .why-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero-bottom { flex-direction: column; align-items: flex-start; gap: 32px; }
+    footer { padding: 20px 24px; }
+    .contact-info { flex-direction: column; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">JP</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#why">Why OFF/BEAT</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-accent-text">Brand</div>
+  <p class="hero-eyebrow">Brand &amp; Marketing — Available June 2025</p>
+  <h1 class="hero-name">
+    Jahwanth<br>
+    <em>Pulugujju</em>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      I don't just study brands.<br>
+      <strong>I build them.</strong><br><br>
+      Strategy · Content · Marketing · Identity —<br>built from scratch for a real brand.
+    </p>
+    <div class="hero-cta">
+      <a href="https://drive.google.com/drive/folders/13pzD6hyebdegqyj_L8J4gonft8e6r-PA?usp=sharing" target="_blank" class="btn-primary">
+        View Narico Case Study
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/jahwanthpulugujju/" target="_blank" class="btn-ghost">
+        LinkedIn
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">Brand Strategy</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Content Creation</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Digital Marketing</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Social Media</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Brand Identity</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Campaign Design</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Content Systems</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Building From Scratch</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Brand Strategy</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Content Creation</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Digital Marketing</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Social Media</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Brand Identity</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Campaign Design</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Content Systems</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Building From Scratch</span><span class="marquee-item marquee-dot">·</span>
+  </div>
+</div>
+
+<!-- WORK -->
+<section id="work">
+  <p class="section-label reveal">Selected Work</p>
+  <div class="work-grid">
+    <div class="case-card" data-delay="0">
+      <p class="case-card-label">Brand Build — 2024/25</p>
+      <h2 class="case-card-title">Narico<br>Naturals</h2>
+      <p class="case-card-desc">
+        Built end-to-end — identity, strategy, content system, and campaign — for a natural skincare brand. From zero to a complete, cohesive brand presence.
+      </p>
+      <div class="case-tags">
+        <span class="tag">Brand Identity</span>
+        <span class="tag">Strategy</span>
+        <span class="tag">Content System</span>
+        <span class="tag">Campaign</span>
+        <span class="tag">End-to-End</span>
+      </div>
+      <a href="https://drive.google.com/drive/folders/13pzD6hyebdegqyj_L8J4gonft8e6r-PA?usp=sharing" target="_blank" class="case-link">
+        View Full Case Study
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="case-number">01</div>
+    </div>
+
+    <div class="case-card-placeholder">
+      <p class="placeholder-text">"The best work<br>is still being<br>built."</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I DO -->
+<section id="about" style="padding-top: 0;">
+  <p class="section-label reveal">What I Do</p>
+  <h2 class="section-heading reveal">
+    The skills I bring<br>to the <em>table</em>
+  </h2>
+  <div class="skills-grid">
+    <div class="skill-card" data-delay="0">
+      <span class="skill-icon">◈</span>
+      <p class="skill-name">Brand Strategy</p>
+      <p class="skill-desc">Who the brand is for, why it exists, and how it should sound — before it looks like anything.</p>
+    </div>
+    <div class="skill-card" data-delay="100">
+      <span class="skill-icon">◎</span>
+      <p class="skill-name">Content Creation</p>
+      <p class="skill-desc">Content that doesn't just fill space — built around a system, a voice, and a reason to exist.</p>
+    </div>
+    <div class="skill-card" data-delay="200">
+      <span class="skill-icon">◉</span>
+      <p class="skill-name">Digital Marketing</p>
+      <p class="skill-desc">Channels, tactics, execution — all in service of one thing: making the brand actually grow.</p>
+    </div>
+    <div class="skill-card" data-delay="300">
+      <span class="skill-icon">◐</span>
+      <p class="skill-name">Social Media</p>
+      <p class="skill-desc">Managing presence across platforms with a consistent brand voice and a feed that doesn't look random.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY OFFBEAT -->
+<section class="why-section" id="why">
+  <p class="section-label reveal">Why OFF/BEAT</p>
+  <div class="why-inner">
+    <div>
+      <h2 class="section-heading" style="margin-bottom: 40px;">
+        I want to<br><em>build things</em><br>that matter.
+      </h2>
+      <ul class="why-list">
+        <li class="why-item" data-delay="0">
+          <span class="why-num">01</span>
+          <p class="why-text"><strong>Build from scratch</strong> — I've done it once. With real constraints, a real brief, and no safety net. OFF/BEAT means doing it at scale.</p>
+        </li>
+        <li class="why-item" data-delay="100">
+          <span class="why-num">02</span>
+          <p class="why-text"><strong>Work directly with Aman</strong> — I want proximity to how someone who's built one of India's biggest consumer brands actually thinks. There's no substitute.</p>
+        </li>
+        <li class="why-item" data-delay="200">
+          <span class="why-num">03</span>
+          <p class="why-text"><strong>Full-time intent</strong> — I'm not looking for a resume line. I'm available from June, open-ended, and ready to convert if it works out. It'll work out.</p>
+        </li>
+        <li class="why-item" data-delay="300">
+          <span class="why-num">04</span>
+          <p class="why-text"><strong>The Diet Coke</strong> — I read the post. I noticed. That's what you're actually testing for.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="why-quote reveal">
+      <p class="why-quote-text">
+        "I didn't just study marketing. I built a brand while studying. That's not a quality I'm trying to develop — it's something I'm already doing."
+      </p>
+      <p class="why-quote-attr">— Jahwanth Pulugujju, First Year CS, BVRIT Hyderabad</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-label reveal">Get In Touch</p>
+    <h2 class="contact-heading reveal">
+      Let's<br>talk<br><em>brands.</em>
+    </h2>
+    <div class="contact-links reveal">
+      <a href="mailto:jahwanthpulugujju@gmail.com" class="btn-primary">
+        Email Me
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/jahwanthpulugujju/" target="_blank" class="btn-ghost">
+        LinkedIn
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="contact-info reveal">
+      <div class="contact-info-item">
+        <span class="contact-info-label">Email</span>
+        <a href="mailto:jahwanthpulugujju@gmail.com" class="contact-info-value">jahwanthpulugujju@gmail.com</a>
+      </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Based In</span>
+        <span class="contact-info-value">Hyderabad — Open to Gurgaon</span>
+      </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Available</span>
+        <span class="contact-info-value">Early June 2025</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-copy">© 2025 Jahwanth Pulugujju. Built for one purpose.</p>
+  <p class="footer-tag">Applying @ OFF/BEAT</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+      cursor.style.background = '#FF4D1C';
+      ring.style.width = '48px';
+      ring.style.height = '48px';
+      ring.style.borderColor = 'rgba(255,77,28,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+      cursor.style.background = '#FF4D1C';
+      ring.style.width = '32px';
+      ring.style.height = '32px';
+      ring.style.borderColor = 'rgba(255,77,28,0.5)';
+    });
+  });
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => entry.target.classList.add('visible'), parseInt(delay));
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .case-card, .skill-card, .why-item').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
